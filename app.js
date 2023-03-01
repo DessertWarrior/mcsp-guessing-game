@@ -1,11 +1,11 @@
-var answer =Math.floor(Math.random()*100)+1; //correct value Global
-var user = {};  //player list Global
-var newUser;
-var guesses = [];  
+let answer =33;//Math.floor(Math.random()*100)+1; //correct value Global
+let user = {};  //player list Global
+let newUser;
+let guesses = [];  
 
-function comparePlayerList(name)
+function comparePlayerList(name)    //used to search if the user has records of played before
 {
-    if (!user[name])
+    if (!user[name])    //if object key not found create with value guesses.length
         user[name] = guesses.length;
     else 
         return true;
@@ -27,16 +27,22 @@ function compareNumbers(num)
                 alert(`${newUser}, you can do better next time. Your best attempt is ${user[newUser]} guesses!`);
             else
                 alert(`${newUser}, you have same attempt number as your previous best attempt.`);
-            return true;
         }
         else
-            alert(`That's Correct ${newUser}! Your previous guesses were ${guesses.join(', ')}` );
+        {
+            if (guesses.length == 1)
+                alert(`Nice job ${newUser}! You only took 1 guess to find out the correct answer is ${answer}`);
+            else {
+                guesses.pop();
+                alert(`That's Correct ${newUser}! Your previous guesses were ${guesses}!` );
+            }
+        }
         return true;
     }
     else if (num > answer)
-        alert(`Sorry, ${newUser}. Guess Lower.`);
+        alert(`Sorry, ${newUser}. Guess Lower`);
     else if (num < answer)
-        alert(`Sorry, ${newUser}. Guess Higher.`);
+        alert(`Sorry, ${newUser}. Guess Higher`);
     else 
         alert(`Please Input correct data type!`);
     return false;
@@ -49,14 +55,12 @@ function playAgain()
 }
  
 
-let guessNum = -1;
-let isPlayAgain = '';
 do {
+    let guessNum;
     newUser = prompt('User');
     guesses = [];
     do {
         guessNum =prompt('Guess');
         guesses.push(guessNum);
-        console.log(answer);
     } while (!compareNumbers(guessNum))
 } while (playAgain())
